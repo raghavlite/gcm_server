@@ -2,13 +2,13 @@ var mongoose = require( 'mongoose' );
 var Schema   = mongoose.Schema;
  
 var Comment = new Schema({
-    username : String,
+   // username : String,
     content  : String,
     created  : Date
 });
  
 var User = new Schema({
-    username : String,
+    //username : String,
     gcm_id  : String
 });
 

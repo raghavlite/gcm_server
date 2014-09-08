@@ -17,7 +17,7 @@ exports.index = function ( req, res ){
 
 exports.create = function ( req, res ){
   new Comment({
-    username : req.body.username,
+   // username : req.body.username,
     content : req.body.comment,
     created : Date.now()
   }).save( function( err, comment, count ){
@@ -52,9 +52,9 @@ console.log(res[0].gcm_id+'length'+res.length);
 exports.register = function (req, res){
 
 
+ console.log('thor null');
 
-
-User.find({  gcm_id: req.query.gcm_id }, function(err, thor) {
+User.find({  gcm_id: req.body.gcm_id }, function(err, thor) {
   if (err) return console.error(err);
 
 
@@ -67,8 +67,8 @@ User.find({  gcm_id: req.query.gcm_id }, function(err, thor) {
 
        
 new User({
-    username : req.query.username,
-    gcm_id : req.query.gcm_id,
+   // username : req.query.username,
+    gcm_id : req.body.gcm_id,
     
   }).save( function( err, comment, count ){
     res.send('1');
@@ -92,7 +92,7 @@ console.log("saved");
 
  
 
-  console.dir(thor);
+  
 });
 
 
