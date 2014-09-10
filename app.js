@@ -32,7 +32,7 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.post( '/create', routes.create );
-app.get('/register',routes.register);
+app.post('/register',routes.register);
 
 
 http.createServer(app).listen(app.get('port'), function(){

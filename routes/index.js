@@ -6,6 +6,12 @@
 var mongoose = require( 'mongoose' );
 var Comment = mongoose.model( 'Comment' );
 var User = mongoose.model('User');
+ var gcm = require('node-gcm');
+var sender = new gcm.Sender('AIzaSyD0MJ71h3Q91xX2_c-vabwxdSxKdm-iPD4');
+
+
+
+
 exports.index = function ( req, res ){
   Comment.find( function ( err, comments, count ){
     res.render( 'index', {
@@ -24,21 +30,43 @@ exports.create = function ( req, res ){
     res.redirect( '/' );
   });
 
+reg_ids=[];
 
 User.find({},'gcm_id',function(err,res)
-{
-
-reg_ids=[];
-for(i=0;i<res.length;i++)
-{
-reg_ids.push(res[i].gcm_id);
+  {
 
 
+  for(i=0;i<res.length;i++)
+  { 
+  reg_ids.push(res[i].gcm_id);
 
-}
+  console.log(i+'th entry is '+res[i].gcm_id+'\n');
+
+  }
 // reg_ids=res.toArray();
 
-console.log(res[0].gcm_id+'length'+res.length);
+
+var message = new gcm.Message();
+
+
+
+message.addData('message',req.body.comment);
+
+
+
+message.collapseKey = 'demo';
+//message.delayWhileIdle = true;
+message.timeToLive = 3;
+//
+
+
+//message.addDataWithKeyValue('message',req.body.comment);
+
+
+sender.send(message, reg_ids, 4, function (err, result) {
+    console.log(result);
+
+
 
 
 });
@@ -46,21 +74,29 @@ console.log(res[0].gcm_id+'length'+res.length);
 
 
 
+
+
+});
+
 };
 
 
 exports.register = function (req, res){
 
 
- console.log('thor null');
+ console.log('\n\n\nnew entry\nentered register function');
 
 User.find({  gcm_id: req.body.gcm_id }, function(err, thor) {
   if (err) return console.error(err);
 
 
+console.log('inside the find function');
+
+
+
   if(thor.length==0)
   {
-    console.log('thor null');
+    console.log('id not found, storing id');
     
   
 
@@ -87,6 +123,8 @@ console.log("saved");
   else
   {
 
+          console.log('id present');
+ 
        res.send('0');   
   }
 
@@ -104,7 +142,7 @@ console.log("saved");
 
 
 
-console.log('inside register 1'+req.query.username);
+console.log('inside register '+req.body.gcm_id);
 
 
 
