@@ -30,6 +30,8 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+
+
 app.get('/', routes.index);
 app.post( '/create', routes.create );
 app.post('/register',routes.register);
