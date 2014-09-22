@@ -46,15 +46,15 @@ User.find({},'gcm_id',function(err,res)
 // reg_ids=res.toArray();
 
 
+console.log("trying to send  "+req.body.username);
 var message = new gcm.Message();
 
 
-
-message.addData('message',req.body.comment);
-
+message.addData('message',req.body.comment+" <"+req.body.username+">");
 
 
-message.collapseKey = req.body.username;
+
+
 //message.delayWhileIdle = true;
 //message.timeToLive = 4;
 //
@@ -107,7 +107,7 @@ new User({
     gcm_id : req.body.gcm_id,
     
   }).save( function( err, comment, count ){
-    res.send('1');
+    res.send("1op");
 
 console.log("saved");
 
@@ -118,14 +118,14 @@ console.log("saved");
 
 
 
-    res.send('1');
+    res.send("1op0");
   }
   else
   {
 
           console.log('id present');
  
-       res.send('0');   
+       res.send("1op0");   
   }
 
  
